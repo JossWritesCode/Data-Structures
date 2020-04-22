@@ -54,7 +54,7 @@ class LRUCache:
     """
 
     def get(self, key):
-        if self.storage[key]:
+        if self.storage[key] is not None:
             return self.storage[key]
 
         else:
@@ -72,4 +72,11 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        pass
+        if self.size < self.limit:
+            self.list.add_to_tail(value)
+            self.storage[key] = value
+        else:
+            self.list.remove_from_tail()
+            self.storage[self.list.tail.value] = None
+            self.list.add_to_tail(value)
+            self.storage[key] = value
