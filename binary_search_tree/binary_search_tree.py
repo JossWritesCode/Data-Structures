@@ -81,27 +81,16 @@ class BinarySearchTree:
         if self.value == target:
             return True
         elif target < self.value:
-            if self.left.value == None:
-                return False
+            if self.left:
+                return self.left.contains(target)
             else:
-                return BinarySearchTree.contains(target)
-        #     if self.left:
-        #         if self.left.value == target:
-        #             return True
-        #         else:
-        #             self.left.left =
-        #     else:
-        #         return False
-        # elif target > self.value:
-        #     if self.right:
-        #         if self.right.value == target:
-        #             return True
-        #         else:
-        #             self.contains(target)
-        #     else:
-        #         return False
-        # else:
-        #     return False
+                return False
+        else:
+            # or recurse to the right
+            if self.right:
+                return self.right.contains(target)
+            else:
+                return False
 
     def return_root_value(self):
         print(self.value)
