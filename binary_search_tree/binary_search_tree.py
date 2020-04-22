@@ -99,10 +99,16 @@ class BinarySearchTree:
     # Return the maximum value found in the tree
 
     def get_max(self):
-        pass
+        # I want to get the bottom rightmost node
+        # start at the top
+        if not self.right:
+            return self.value
+        else:
+            return self.right.get_max()
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
+
     def for_each(self, cb):
         pass
 
