@@ -40,10 +40,10 @@ class LRUCache:
     """
 
     def __init__(self, limit=10):
-        self.size = 0
-        self.list = DoublyLinkedList()
         self.limit = limit
         self.storage = {}
+        self.ordering = DoublyLinkedList()
+        self.size = 0
 
     """
     Retrieves the value associated with the given key. Also
@@ -54,8 +54,11 @@ class LRUCache:
     """
 
     def get(self, key):
-        if self.storage[key] is not None:
-            return self.storage[key]
+        if key in self.storage:
+            # fetch the DLL node which is the value of this key
+            node = self.storage[key]
+            self.ordering.move_to_end(node)
+            return node.value[1]
 
         else:
             return None
@@ -72,11 +75,30 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        if self.size < self.limit:
-            self.list.add_to_tail(value)
-            self.storage[key] = value
-        else:
-            self.list.remove_from_tail()
-            self.storage[self.list.tail.value] = None
-            self.list.add_to_tail(value)
-            self.storage[key] = value
+
+        if key in self.storage:
+            node = self.storage[key]
+            # overwrite the old value
+            node.value = (key, value)
+            # move this node to the tail
+            self.ordering.move_to_end(node)
+            return
+        if self.size == self.limit:
+            # evict the least-recently used element
+            oldest_key = self.ordering.head.value[0]
+            del self.storage[oldest_key]
+            # remove the head node from the DLL
+            self.ordering.remove_from_head()
+            self.size -= 1
+        self.ordering.add_to_tail((key, value))
+        self.storage[key] = self.ordering.tail
+        self.size += 1
+
+        # if self.size < self.limit:
+        #     self.list.add_to_tail(value)
+        #     self.storage[key] = value
+        # else:
+        #     self.list.remove_from_tail()
+        #     self.storage[self.list.tail.value] = None
+        #     self.list.add_to_tail(value)
+        #     self.storage[key] = value
