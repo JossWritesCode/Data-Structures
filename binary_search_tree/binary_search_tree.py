@@ -124,9 +124,9 @@ class BinarySearchTree:
     # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node=None):
-        print(self.value)
         if self.left:
             self.left.in_order_print()
+        print(self.value)
         if self.right:
             self.right.in_order_print()
 
