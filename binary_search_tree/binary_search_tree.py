@@ -132,14 +132,38 @@ class BinarySearchTree:
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
+    # depth-first : stack
+    # breadth-first : queue
+
+    # Print the value of every node, starting with the given node,
+    # in an iterative breadth first traversal
+    # depth-first : stack
+    # breadth-first : queue
 
     def bft_print(self, node):
-        pass
+        q = Queue()
+        q.enqueue(node)
+        while q.len() > 0:
+            current_node = q.dequeue()
+            print(current_node.value)
+            if current_node.left:
+                q.enqueue(current_node.left)
+            if current_node.right:
+                q.enqueue(current_node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
+
     def dft_print(self, node):
-        pass
+        s = Stack()
+        s.push(node)
+        while s.len() > 0:
+            current_node = s.pop()
+            print(current_node.value)
+            if current_node.left:
+                s.push(current_node.left)
+            if current_node.right:
+                s.push(current_node.right)
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
@@ -151,3 +175,48 @@ class BinarySearchTree:
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
         pass
+
+
+#  # apply the callback function to every single node of our tree
+#   # at least O(n), could be worse depending on the callback
+#   def for_each(self, cb):
+#     # apply the callback
+#     cb(self.value)
+#     # base case: the node has no children
+# ​
+#     # call the cb on the children of this node
+#     # let's check that this node has children
+#     if self.right:
+#       self.right.for_each(cb)
+#     if self.left:
+#       self.left.for_each(cb)
+# ​
+#   def depth_first_iterative_for_each(self, cb):
+#     stack = []
+#     # add the root of the tree to the stack
+#     stack.append(self)
+# ​
+#     # loop so long as the stack still has elements
+#     while len(stack) > 0:
+#       current_node = stack.pop()
+#       # check if the right child exists
+#       if current_node.right:
+#         stack.append(current_node.right)
+#       # check if the left child exists
+#       if current_node.left:
+#         stack.append(current_node.left)
+#       cb(current_node.value)
+# ​
+#   def breadth_first_iterative_for_each(self, cb):
+#     # depth-first : stack
+#     # breadth-first : queue
+#     q = deque()
+#     q.append(self)
+# ​
+#     while len(q) > 0:
+#       current_node = q.popleft()
+#       if current_node.left:
+#         q.append(current_node.left)
+#       if current_node.right:
+#         q.append(current_node.right)
+#       cb(current_node.value)
